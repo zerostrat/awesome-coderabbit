@@ -1,13 +1,14 @@
 {
-  "generatedAt": "2026-10-15T19:41:01Z",
+  "generatedAt": "2026-10-15T21:49:35Z",
   "source": "configs/",
-  "count": 71,
+  "count": 72,
   "categories": [
     "cpp",
     "custom-recipes",
     "default",
     "django",
     "docs",
+    "fintech",
     "flutter",
     "fullstack",
     "github",
@@ -246,6 +247,19 @@
       "summary": "CodeRabbit configuration for docs.",
       "bytes": 1773,
       "lines": 33
+    },
+    {
+      "id": "fintech--coderabbit-loan-comparison-yaml",
+      "path": "configs/fintech/coderabbit-loan-comparison.yaml",
+      "name": "coderabbit-loan-comparison.yaml",
+      "title": "Loan Comparison",
+      "category": "fintech",
+      "kind": "config",
+      "profile": "assertive",
+      "language": "sv-SE",
+      "summary": "Starter for Swedish loan / credit comparison sites (affiliate + calculator + content).",
+      "bytes": 4244,
+      "lines": 81
     },
     {
       "id": "flutter--dart-testing-style-config-yaml",

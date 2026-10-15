@@ -26,6 +26,8 @@ Browse and copy every starter, recipe, and pre-merge check from a searchable pag
 - **Live catalog:** [zerostrat.github.io/awesome-coderabbit](https://zerostrat.github.io/awesome-coderabbit/)
 - **Source:** [`site/`](site/)
 - **Machine-readable index:** [`site/data/index.json`](site/data/index.json)
+- **Product-site playbook:** [`docs/using-catalog-for-product-sites.md`](docs/using-catalog-for-product-sites.md)
+- **Loan comparison starter:** [`configs/fintech/coderabbit-loan-comparison.yaml`](configs/fintech/coderabbit-loan-comparison.yaml)
 
 Regenerate the catalog data after changing files under `configs/`:
 

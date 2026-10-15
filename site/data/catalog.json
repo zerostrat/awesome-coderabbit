@@ -1,13 +1,14 @@
 {
-  "generatedAt": "2026-10-15T19:41:01Z",
+  "generatedAt": "2026-10-15T21:49:35Z",
   "source": "configs/",
-  "count": 71,
+  "count": 72,
   "categories": [
     "cpp",
     "custom-recipes",
     "default",
     "django",
     "docs",
+    "fintech",
     "flutter",
     "fullstack",
     "github",
@@ -262,6 +263,20 @@
       "bytes": 1773,
       "lines": 33,
       "content": "# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json\nlanguage: \"en\"\nearly_access: false\nreviews:\n  high_level_summary: false\n  poem: false\n  review_status: false\n  collapse_walkthrough: false\n  path_instructions:\n    - path: \"**/*.mdx\"\n      instructions: |\n        \"ALWAYS review Markdown content THOROUGHLY with the following criteria:\n        - Use proper nouns in place of personal pronouns like 'We' and 'Our' to maintain consistency in communal documentation.\n        - Avoid gender-specific language and use the imperative form.\n        - Monitor capitalization for emphasis. Avoid using all caps, italics, or bold for emphasis.\n        - Ensure proper nouns are capitalized in sentences.\n        - Apply the Oxford comma.\n        - Use proper title case for buttons, tab names, page names, and links. Sentence case should be used for body content and short phrases, even in links.\n        - Use correct spelling and grammar at all times (IMPORTANT).\n        - For H1, H2, and H3 headers:\n          1. Use sentence case, capitalizing only the first word.\n          2. Preserve the capitalization of proper nouns, technical terms, and acronyms as defined in the 'nouns.txt' file located in the root directory of the project.\n          3. Do not automatically lowercase words that appear in the 'nouns.txt' file, regardless of their position in the header.\n        - Flag any headers that seem to inconsistently apply these rules for manual review.\n        - When reviewing capitalization, always refer to the 'nouns.txt' file for the correct capitalization of proper nouns and technical terms specific to the project.\n        \"\n  auto_review:\n    enabled: true\n    drafts: false\n    base_branches:\n      - \"main\"\nchat:\n  auto_reply: true\n"
+    },
+    {
+      "id": "fintech--coderabbit-loan-comparison-yaml",
+      "path": "configs/fintech/coderabbit-loan-comparison.yaml",
+      "name": "coderabbit-loan-comparison.yaml",
+      "title": "Loan Comparison",
+      "category": "fintech",
+      "kind": "config",
+      "profile": "assertive",
+      "language": "sv-SE",
+      "summary": "Starter for Swedish loan / credit comparison sites (affiliate + calculator + content).",
+      "bytes": 4244,
+      "lines": 81,
+      "content": "# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json\n# Starter for Swedish loan / credit comparison sites (affiliate + calculator + content).\n# Pair with configs/pre-mergechecks/.coderabbit-fintech.yaml for monetary safety checks.\nlanguage: \"sv-SE\"\nearly_access: false\ntone_instructions: >\n  Du granskar kod för en svensk jämförelsetjänst för lån och krediter.\n  Var konkret och kort. Prioritera efterlevnad, korrekta räkneexempel,\n  tydliga affiliate-disclosure och att användaren inte vilseleds om ränta,\n  avgifter eller representativa exempel. Skriv feedback på svenska när\n  ändringen är användarvänd; tekniska termer får vara på engelska.\n\nreviews:\n  profile: assertive\n  request_changes_workflow: false\n  high_level_summary: true\n  poem: false\n  review_status: true\n  collapse_walkthrough: true\n  path_instructions:\n    - path: \"**/*.{js,ts,tsx,jsx,py,go}\"\n      instructions: |\n        - Flagga binär flyttal-aritmetik för ränta, månadskostnad, effektiv ränta eller totalkostnad; kräv decimal/minor-units.\n        - Kontrollera att representativa exempel, räntespann och avgifter inte hårdkodas motstridigt på flera ställen.\n        - Kräv tester eller tydliga fixtures när kalkylatorlogik ändras.\n        - Flagga saknad idempotens / dubbel-submit-skydd på lead-/ansökningsflöden.\n    - path: \"**/*.{html,md,mdx,astro,vue,svelte}\"\n      instructions: |\n        - Kräv synlig affiliate-/marknadsföringsinformation när CTA går till långivare eller förmedlare.\n        - Flagga vilseledande superlativ (\"bästa lån\") utan källa eller urvalskriterier.\n        - Kontrollera att ränta/avgift som visas matchar datakällan och har \"exempel\"/\"repr. exempel\" när det krävs.\n        - Flagga saknade `rel`-attribut på affiliatelänkar där projektet redan använder dem.\n    - path: \"**/data/**/*.{json,yml,yaml,csv}\"\n      instructions: |\n        - Granska att långivarposter har konsekventa fält (ränta, belopp, ålder, UC, affiliate-URL).\n        - Flagga saknad lastUpdated/lastVerified när villkor ändras.\n        - Kräv att belopp och procentsatser lagras som sträng/decimal, inte osäkra floats, om schemat tillåter det.\n    - path: \"**/*calc*.*\"\n      instructions: |\n        - Fokusera på formler för månadsbetalning, effektiv ränta och totalkostnad.\n        - Kräv avrundningsregler och tydliga enheter (månader vs år, nominell vs effektiv ränta).\n\n  auto_review:\n    enabled: true\n    drafts: false\n    auto_incremental_review: true\n\n  pre_merge_checks:\n    custom_checks:\n      - name: \"Disclose Affiliate Relationships\"\n        mode: \"warning\"\n        instructions: >-\n          When changed UI or content adds or modifies a lender CTA, application\n          link, or comparison table that can send users to a commercial partner,\n          fail if the surrounding page or component lacks a clear affiliate or\n          marketing disclosure consistent with the repository's existing pattern.\n          Pass when disclosure is present and visible. Mark not applicable for\n          purely internal tooling or non-commercial documentation.\n\n      - name: \"Keep Calculator Math Exact\"\n        mode: \"warning\"\n        instructions: >-\n          When changed code calculates interest, monthly payment, APR/effective\n          rate, or total cost of credit, fail if it uses binary floating-point\n          for the core arithmetic or rounds inconsistently with documented\n          rules. Require decimal/minor-unit math and explicit rounding at display\n          boundaries. Pass when exact types are used throughout. Mark not\n          applicable when no loan math changes.\n\n      - name: \"Protect Lead and PII Flows\"\n        mode: \"warning\"\n        instructions: >-\n          When changed code collects or transmits name, email, phone, personnummer,\n          or credit-check related input, fail if secrets or full personnummer are\n          logged, or if the submit path has no obvious duplicate-submit /\n          idempotency protection where the codebase normally has one. Pass when\n          PII is handled consistently with existing privacy patterns. Mark not\n          applicable when no lead/PII flow is touched.\n\nchat:\n  auto_reply: true\n"
     },
     {
       "id": "flutter--dart-testing-style-config-yaml",
