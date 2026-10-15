@@ -1,0 +1,81 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+# Starter for Swedish loan / credit comparison sites (affiliate + calculator + content).
+# Pair with configs/pre-mergechecks/.coderabbit-fintech.yaml for monetary safety checks.
+language: "sv-SE"
+early_access: false
+tone_instructions: >
+  Du granskar kod för en svensk jämförelsetjänst för lån och krediter.
+  Var konkret och kort. Prioritera efterlevnad, korrekta räkneexempel,
+  tydliga affiliate-disclosure och att användaren inte vilseleds om ränta,
+  avgifter eller representativa exempel. Skriv feedback på svenska när
+  ändringen är användarvänd; tekniska termer får vara på engelska.
+
+reviews:
+  profile: assertive
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: true
+  path_instructions:
+    - path: "**/*.{js,ts,tsx,jsx,py,go}"
+      instructions: |
+        - Flagga binär flyttal-aritmetik för ränta, månadskostnad, effektiv ränta eller totalkostnad; kräv decimal/minor-units.
+        - Kontrollera att representativa exempel, räntespann och avgifter inte hårdkodas motstridigt på flera ställen.
+        - Kräv tester eller tydliga fixtures när kalkylatorlogik ändras.
+        - Flagga saknad idempotens / dubbel-submit-skydd på lead-/ansökningsflöden.
+    - path: "**/*.{html,md,mdx,astro,vue,svelte}"
+      instructions: |
+        - Kräv synlig affiliate-/marknadsföringsinformation när CTA går till långivare eller förmedlare.
+        - Flagga vilseledande superlativ ("bästa lån") utan källa eller urvalskriterier.
+        - Kontrollera att ränta/avgift som visas matchar datakällan och har "exempel"/"repr. exempel" när det krävs.
+        - Flagga saknade `rel`-attribut på affiliatelänkar där projektet redan använder dem.
+    - path: "**/data/**/*.{json,yml,yaml,csv}"
+      instructions: |
+        - Granska att långivarposter har konsekventa fält (ränta, belopp, ålder, UC, affiliate-URL).
+        - Flagga saknad lastUpdated/lastVerified när villkor ändras.
+        - Kräv att belopp och procentsatser lagras som sträng/decimal, inte osäkra floats, om schemat tillåter det.
+    - path: "**/*calc*.*"
+      instructions: |
+        - Fokusera på formler för månadsbetalning, effektiv ränta och totalkostnad.
+        - Kräv avrundningsregler och tydliga enheter (månader vs år, nominell vs effektiv ränta).
+
+  auto_review:
+    enabled: true
+    drafts: false
+    auto_incremental_review: true
+
+  pre_merge_checks:
+    custom_checks:
+      - name: "Disclose Affiliate Relationships"
+        mode: "warning"
+        instructions: >-
+          When changed UI or content adds or modifies a lender CTA, application
+          link, or comparison table that can send users to a commercial partner,
+          fail if the surrounding page or component lacks a clear affiliate or
+          marketing disclosure consistent with the repository's existing pattern.
+          Pass when disclosure is present and visible. Mark not applicable for
+          purely internal tooling or non-commercial documentation.
+
+      - name: "Keep Calculator Math Exact"
+        mode: "warning"
+        instructions: >-
+          When changed code calculates interest, monthly payment, APR/effective
+          rate, or total cost of credit, fail if it uses binary floating-point
+          for the core arithmetic or rounds inconsistently with documented
+          rules. Require decimal/minor-unit math and explicit rounding at display
+          boundaries. Pass when exact types are used throughout. Mark not
+          applicable when no loan math changes.
+
+      - name: "Protect Lead and PII Flows"
+        mode: "warning"
+        instructions: >-
+          When changed code collects or transmits name, email, phone, personnummer,
+          or credit-check related input, fail if secrets or full personnummer are
+          logged, or if the submit path has no obvious duplicate-submit /
+          idempotency protection where the codebase normally has one. Pass when
+          PII is handled consistently with existing privacy patterns. Mark not
+          applicable when no lead/PII flow is touched.
+
+chat:
+  auto_reply: true
