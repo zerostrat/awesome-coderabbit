@@ -6,6 +6,7 @@ This curated list covers the best resources, tutorials, and community content re
 
 ## Contents
 
+- [Config Catalog Site](#config-catalog-site)
 - [Official Resources](#official-resources)
 - [Getting Started](#getting-started)
 - [API Reference](#api-reference)
@@ -17,6 +18,20 @@ This curated list covers the best resources, tutorials, and community content re
 - [Media Coverage](#media-coverage)
 - [Community Reviews](#community-reviews)
 - [Projects Using CodeRabbit](#projects-using-coderabbit)
+
+## Config Catalog Site
+
+Browse and copy every starter, recipe, and pre-merge check from a searchable page:
+
+- **Live catalog:** [zerostrat.github.io/awesome-coderabbit](https://zerostrat.github.io/awesome-coderabbit/)
+- **Source:** [`site/`](site/)
+- **Machine-readable index:** [`site/data/index.json`](site/data/index.json)
+
+Regenerate the catalog data after changing files under `configs/`:
+
+```bash
+python3 scripts/build-catalog.py
+```
 
 ## Official Resources
 
