@@ -1,0 +1,16 @@
+[
+  {
+    "slug": "example-lender",
+    "name": "Exempel Banken",
+    "product": "privatlan",
+    "amountMin": 10000,
+    "amountMax": 500000,
+    "aprExample": "5.95",
+    "ageMin": 20,
+    "uc": true,
+    "affiliateUrl": "https://example.com/go/exempel-banken",
+    "disclosure": "Annons / affiliatelänk",
+    "lastVerified": "2026-10-15",
+    "notes": "Replace with real partners before launch."
+  }
+]
