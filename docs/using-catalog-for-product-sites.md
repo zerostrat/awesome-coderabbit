@@ -4,11 +4,18 @@ The catalog at `site/` is not only a browser for YAML — it is a **reusable pla
 
 ## Connected product repo
 
-| Product | GitHub repo | Config on product |
+| Product | Target | Drop-in pack in this repo |
 | --- | --- | --- |
-| **Kreditvalen** (kreditvalen.se) | [`zerostrat/lendo-klar-inspired`](https://github.com/zerostrat/lendo-klar-inspired) | [`.coderabbit.yaml`](https://github.com/zerostrat/lendo-klar-inspired/blob/main/.coderabbit.yaml) (loan-comparison starter) |
+| **Kreditvalen** (kreditvalen.se) | [`zerostrat/lendo-klar-inspired`](https://github.com/zerostrat/lendo-klar-inspired) (or your private kreditvalen.se repo) | [`products/kreditvalen/`](../products/kreditvalen/) |
 
-If you have a separate private repo for kreditvalen.se, add it to the Cloud Agent environment and point this table at that URL instead.
+Copy the pack into the product repo root when that repo is writable from CI/agents:
+
+```bash
+cp products/kreditvalen/.coderabbit.yaml /path/to/kreditvalen/.coderabbit.yaml
+cp -r products/kreditvalen/data /path/to/kreditvalen/
+```
+
+Add the real kreditvalen.se GitHub repo to the Cloud Agent environment so agents can push there directly.
 
 ## Why this helps a loan/credit site
 
