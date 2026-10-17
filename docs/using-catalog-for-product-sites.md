@@ -2,6 +2,14 @@
 
 The catalog at `site/` is not only a browser for YAML — it is a **reusable playbook** for shipping a comparison product faster and safer.
 
+## Connected product repo
+
+| Product | GitHub repo | Config on product |
+| --- | --- | --- |
+| **Kreditvalen** (kreditvalen.se) | [`zerostrat/lendo-klar-inspired`](https://github.com/zerostrat/lendo-klar-inspired) | [`.coderabbit.yaml`](https://github.com/zerostrat/lendo-klar-inspired/blob/main/.coderabbit.yaml) (loan-comparison starter) |
+
+If you have a separate private repo for kreditvalen.se, add it to the Cloud Agent environment and point this table at that URL instead.
+
 ## Why this helps a loan/credit site
 
 | Lever | How you use it | Outcome |
